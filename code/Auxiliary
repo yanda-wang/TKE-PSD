@@ -231,31 +231,3 @@ def create_ehr_adj():
                     ehr_adj[med_i, med_j] = 1
                     ehr_adj[med_j, med_i] = 1
     dill.dump(ehr_adj, open('data/ehr_adj_final.pkl', 'wb'))
-
-
-if __name__ == '__main__':
-    # data = process_all()
-    # # statistics()
-    # data.to_pickle('data/data_final.pkl')
-    # data.head()
-
-    # path = 'data/data_final.pkl'
-    # df = pd.read_pickle(path)
-    # diag_voc, med_voc, pro_voc = create_str_token_mapping(df)
-    # records = create_patient_record(df, diag_voc, med_voc, pro_voc)
-    # print(len(diag_voc.idx2word), len(pro_voc.idx2word), len(med_voc.idx2word))
-
-    # create_ehr_adj()
-
-    #################################################################
-    # patient_records = dill.load(open('data/records_final.pkl', 'rb'))
-    # for patient in patient_records[:5]:
-    #     print(patient)
-    #
-    # voc = dill.load(open('data/voc_final.pkl', 'rb'))
-    # med_voc = voc['med_voc']
-    # print(med_voc.word2idx)
-    # print(len(med_voc.word2idx))
-
-    ehr_graph = dill.load(open('data/ehr_adj_final.pkl', 'rb'))
-    print(ehr_graph)

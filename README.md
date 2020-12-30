@@ -4,7 +4,7 @@
 
 This is the implement for paper Topological Knowledge Enhanced Personalized Sequence Determination Model for Medication Recommendation, which is a model that combines global topological knowledge of medications and personalized patient conditions to determine the order of medications for sequential recommendation.
 
-TKE-PSD firstly conduct medication recommendation to generate drugs as sets, and uses the probabilities of these drugs as the predict potential, then TKE-PSD calculates the topological potential of medications based on their co-occurrence. These two kinds of potential are combined by weighted sum, and the final results are used to determine the order of medications for sequential recommendation. In addition, TKE-PSD propsoes Occurrence-Based (OB) Beam search, a modified Beam search that uses the occurrence frequency of medications in the predicted sequences to change the probabilitis of drugs, so that redundant and duplicate drugs could be avoided.
+TKE-PSD firstly conduct medication recommendation to generate drugs as sets (seq2set), and uses the probabilities of these drugs as the predict potential, then TKE-PSD calculates the topological potential of medications based on their co-occurrence. These two kinds of potential are combined by weighted sum, and the final results are used to determine the order of medications for sequential recommendation (seq2seq). In addition, TKE-PSD propsoes Occurrence-Based (OB) Beam search, a modified Beam search that uses the occurrence frequency of medications in the predicted sequences to change the probabilitis of drugs, so that redundant and duplicate drugs could be avoided.
 
 # Requirement
 
@@ -48,3 +48,12 @@ Seq2SetOptim.py: hyper-parameters tuning based on Gaussian Process for the gener
 SequenceOrder.py: generation of different medication sequences.
 
 Training.py: model training.
+
+To conduct the sequential medication recommendation, one can follows the following steps:
+1. Conducting data preprocessing to get the input, the code could be found in Auxiliary.py.
+2. Obtaining the optimal hyper-parameters for the seq2set model by using the code in Seq2SetOptim.py.
+3. Training the seq2set model to obtain predict potential for medications, and the code could be found in Training.py.
+4. Using the code in SequenceOrder.py to generating the ground truth medication sequences for the sequential recommendation.
+5. Obtaining the optimal hyper-parameters for the seq2seq model by using the code in Seq2SeqAttnDeOptim.py.
+6. Using Training.py to train the seq2seq model.
+7. Determing the hyper-parameters for OB Beam by using BeamSearchOptimization.py.

@@ -19,12 +19,12 @@ Experiments are conducted based on [MIMIC-III](https://mimic.physionet.org), a r
 Patient records are selected from the raw data, and each patient is represented by the clinical informaiton of each admission, which include diagnoses, procedures, and medications. These admissions are ordered chronologically. An example of patient records is presented as follows, which contains two admissions.
 
 \[\[\['4239', '5119', '78551', '4589'\],\['3731', '8872', '3893'\],\['N02B', 'A01A', 'A02B', 'A06A', 'B05C', 'A12'\]\],
-\[\[\['7455', '45829', 'V1259', '2724'\],\['3571', '3961', '8872'\],\['N02B', 'A01A', 'A02B', 'A06A', 'A12A'\]\]\]
+  \[\['7455', '45829', 'V1259', '2724'\],\['3571', '3961', '8872'\],\['N02B', 'A01A', 'A02B', 'A06A', 'A12A'\]\]\]
 
 Items in patient records are then assigned a identical code, so that the raw records are transformed into the following format, which would act as the input of TKE-PSD.
 
 \[\[\[2, 3, 4, 5, 6, 7, 8, 9\], \[2, 3, 4\], \[2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17\]\],
-\[\[10, 11, 12, 9\], \[5, 6, 3\], \[2, 3, 4, 5, 7, 6, 8, 9, 10, 11, 12, 13, 15, 17, 18, 19, 20\]\]\]
+  \[\[10, 11, 12, 9\], \[5, 6, 3\], \[2, 3, 4, 5, 7, 6, 8, 9, 10, 11, 12, 13, 15, 17, 18, 19, 20\]\]\]
 
 
 # Code

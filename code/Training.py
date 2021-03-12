@@ -501,9 +501,3 @@ def Seq2SeqTraining(input_size, hidden_size, encoder_n_layers, encoder_input_emb
                 save_every_epoch, load_model_name)
 
 
-if __name__ == '__main__':
-    # Seq2SetTraining(200, 200, 3, 0.4156419, 0.09946605, False, 0, 0.0000589, 0.75956592, 0, 0.00001552, 19, 'general',
-    #                 'general', 'data/test', n_epoch=2)
-    Seq2SeqTraining(200, 200, 2, 0.33924615, 0.25448997, 0.00000589, 0.24392542, 0.0000196, 0.8,
-                    save_model_dir='data/test/seq2seq_predict_teach_0.8_constant', n_epoch=2,
-                    load_model_name='data/test/seq2seq_2_348_4.3409_0.2056.checkpoint')

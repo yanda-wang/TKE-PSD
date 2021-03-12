@@ -50,7 +50,6 @@ class EvaluateSeq2Seq:
         total_metric_jaccard = 0.0
         total_metric_precision = 0.0
         total_metric_recall = 0.0
-        total_metric_f1 = 0.0
         count = 0
         predict_result_patient_records = []
 
@@ -104,7 +103,6 @@ class EvaluateSeq2Seq:
                 total_metric_jaccard += jaccard
                 total_metric_precision += precision
                 total_metric_recall += recall
-                total_metric_f1 += f1
 
                 adm.append(predict_token)
                 current_patient.append(adm)
@@ -114,7 +112,7 @@ class EvaluateSeq2Seq:
         jaccard_avg = total_metric_jaccard / count
         precision_avg = total_metric_precision / count
         recall_avg = total_metric_recall / count
-        f1_avg = total_metric_f1 / count
+        f1_avg = self.evaluate_utils.metric_f1(precision_avg, recall_avg)
 
         dill.dump(obj=predict_result_patient_records,
                   file=open(os.path.join(save_result_file, 'predict_result.pkl'), 'wb'))
@@ -130,7 +128,6 @@ class EvaluateSeq2Seq:
         total_metric_jaccard = 0.0
         total_metric_precision = 0.0
         total_metric_recall = 0.0
-        total_metric_f1 = 0.0
         count = 0
 
         predict_distinct_rate = []
@@ -182,7 +179,6 @@ class EvaluateSeq2Seq:
                 total_metric_jaccard += jaccard
                 total_metric_precision += precision
                 total_metric_recall += recall
-                total_metric_f1 += f1
 
                 adm.append(predict_token)
                 current_patient.append(adm)
@@ -193,7 +189,7 @@ class EvaluateSeq2Seq:
         jaccard_avg = total_metric_jaccard / count
         precision_avg = total_metric_precision / count
         recall_avg = total_metric_recall / count
-        f1_avg = total_metric_f1 / count
+        f1_avg = self.evaluate_utils.metric_f1(precision_avg, recall_avg)
 
         dill.dump(obj=predict_result_patient_records,
                   file=open(os.path.join(save_result_file, 'predict_result.pkl'), 'wb'))
@@ -431,7 +427,6 @@ class EvaluateSeq2SeqBeamSearch:
         total_metric_jaccard = 0.0
         total_metric_precision = 0.0
         total_metric_recall = 0.0
-        total_metric_f1 = 0.0
         count = 0
         beam_size = self.beam_size
 
@@ -508,7 +503,6 @@ class EvaluateSeq2SeqBeamSearch:
                 total_metric_jaccard += jaccard
                 total_metric_precision += precision
                 total_metric_recall += recall
-                total_metric_f1 += f1
 
                 adm.append(predict_token)
                 current_patient.append(adm)
@@ -518,7 +512,7 @@ class EvaluateSeq2SeqBeamSearch:
         jaccard_avg = total_metric_jaccard / count
         precision_avg = total_metric_precision / count
         recall_avg = total_metric_recall / count
-        f1_avg = total_metric_f1 / count
+        f1_avg = self.metric_f1(precision_avg, recall_avg)
 
         dill.dump(obj=predict_result_patient_records,
                   file=open(os.path.join(save_result_file, 'predict_result.pkl'), 'wb'))
@@ -595,16 +589,3 @@ class EvaluationUtil:
         return f1
 
 
-if __name__ == '__main__':
-    # module = EvaluateSeq2Seq(params.device, params.CONCEPTID_FILE, params.PATIENT_RECORDS_ORDERED_FILE, 24, 10)
-    # module.evaluate(
-    #     'data/model/seq2seq_maxlength40_teach_init0.8_change_40_constant_60/2_200_200_0.9_0.1_AttnDe/0.33924615_0.25448997_5.89e-06_0.24392542_1.96e-05/seq2seq_110_1355530_2.3730_0.6312.checkpoint',
-    #     200, 200, 2, 0.33924615, 0.25448997, 0.24392542, 'greedy',
-    #     save_result_path='data/test/delete')
-
-    module = EvaluateSeq2SeqBeamSearch(params.device, params.CONCEPTID_FILE, params.PATIENT_RECORDS_ORDERED_FILE,
-                                       params.SEQUENCE_MAX_LENGTH, params.ENCODER_HIDDEN_MAX_LENGTH, 7.62227648,
-                                       beam_type='standard', beam_size=29)
-    module.evaluate(
-        'data/model/seq2seq_maxlength40_teach_init0.8_change_40_constant_60/2_200_200_0.9_0.1_AttnDe/0.33924615_0.25448997_5.89e-06_0.24392542_1.96e-05/seq2seq_110_1355530_2.3730_0.6312.checkpoint',
-        200, 200, 2, 0.33924615, 0.25448997, 0.24392542, save_result_path='data/test')

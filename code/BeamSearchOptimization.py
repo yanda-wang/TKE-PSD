@@ -64,7 +64,6 @@ def load_data(patient_records_file):
 def evaluateIters(encoder, decoder, patient_records, beam_size, beam_minus_weight):
     total_metric_precision = 0.0
     total_metric_recall = 0.0
-    total_metric_f1 = 0.0
     count = 0
     predict_distinct_rate = []
 
@@ -129,13 +128,12 @@ def evaluateIters(encoder, decoder, patient_records, beam_size, beam_minus_weigh
 
             total_metric_precision += precision
             total_metric_recall += recall
-            total_metric_f1 += f1
 
             predict_distinct_rate.append(float(len(set(predict_token)) / len(predict_token)))
 
     precision_avg = total_metric_precision / count
     recall_avg = total_metric_recall / count
-    f1_avg = total_metric_f1 / count
+    f1_avg = 2.0 * precision_avg * recall_avg / (precision_avg + recall_avg)
 
     return f1_avg
 
@@ -168,4 +166,4 @@ def optimize(n_calls):
 
 
 if __name__ == "__main__":
-    optimize(12)
+    optimize(25)

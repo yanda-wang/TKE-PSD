@@ -54,7 +54,7 @@ class TrainMedRecSeq2Set:
         return loss
 
     def get_performance_on_testset(self, encoder, decoder, patient_records, proportion_bce=0.9, proportion_multi=0.1):
-        jaccard_avg, precision_avg, recall_avg, f1_avg, loss_avg = 0.0, 0.0, 0.0, 0.0, 0.0
+        jaccard_avg, precision_avg, recall_avg, loss_avg = 0.0, 0.0, 0.0, 0.0
         count = 0
         for patient in patient_records:
             for idx, adm in enumerate(patient):
@@ -79,19 +79,17 @@ class TrainMedRecSeq2Set:
                 jaccard = self.evaluate_utils.metric_jaccard_similarity(predict_medications, target_medications)
                 precision = self.evaluate_utils.metric_precision(predict_medications, target_medications)
                 recall = self.evaluate_utils.metric_recall(predict_medications, target_medications)
-                f1 = self.evaluate_utils.metric_f1(precision, recall)
                 loss = self.loss_function(target_medications, predict_output, proportion_bce, proportion_multi)
 
                 jaccard_avg += jaccard
                 precision_avg += precision
                 recall_avg += recall
-                f1_avg += f1
                 loss_avg += loss.item()
 
         jaccard_avg = jaccard_avg / count
         precision_avg = precision_avg / count
         recall_avg = recall_avg / count
-        f1_avg = f1_avg / count
+        f1_avg = self.evaluate_utils.metric_f1(precision_avg, recall_avg)
         loss_avg = loss_avg / count
 
         return jaccard_avg, precision_avg, recall_avg, f1_avg, loss_avg
@@ -266,7 +264,7 @@ class TrainMedRecSeq2Seq:
         self.evaluate_utils = EvaluationUtil()
 
     def get_performance_on_testset(self, encoder, decoder, patient_records):
-        jaccard_avg, precision_avg, recall_avg, f1_avg = 0.0, 0.0, 0.0, 0.0
+        jaccard_avg, precision_avg, recall_avg = 0.0, 0.0, 0.0
         count = 0
         criterion = nn.NLLLoss()
         for patient in patient_records:
@@ -300,7 +298,6 @@ class TrainMedRecSeq2Seq:
                 jaccard = self.evaluate_utils.metric_jaccard_similarity(y_predict_token, target)
                 precision = self.evaluate_utils.metric_precision(y_predict_token, target)
                 recall = self.evaluate_utils.metric_recall(y_predict_token, target)
-                f1 = self.evaluate_utils.metric_f1(precision, recall)
 
                 target_multi_hot = np.zeros(self.medication_count - 2)
                 target_index = [item - 2 for item in target]
@@ -310,13 +307,11 @@ class TrainMedRecSeq2Seq:
                 jaccard_avg += jaccard
                 precision_avg += precision
                 recall_avg += recall
-                f1_avg += f1
-                # loss_avg += loss
 
         jaccard_avg = jaccard_avg / count
         precision_avg = precision_avg / count
         recall_avg = recall_avg / count
-        f1_avg = f1_avg / count
+        f1_avg = self.evaluate_utils.metric_f1(precision_avg, recall_avg)
         return jaccard_avg, precision_avg, recall_avg, f1_avg
 
     def trainIters(self, encoder, decoder, encoder_optimizer, decoder_optimizer, teaching_force_rate,
@@ -507,8 +502,8 @@ def Seq2SeqTraining(input_size, hidden_size, encoder_n_layers, encoder_input_emb
 
 
 if __name__ == '__main__':
-    Seq2SetTraining(200, 200, 3, 0.4156419, 0.09946605, False, 0, 0.0000589, 0.75956592, 0, 0.00001552, 19, 'general',
-                    'general', 'data/test', n_epoch=2)
-    # Seq2SeqTraining(200, 200, 2, 0.33924615, 0.25448997, 0.00000589, 0.24392542, 0.0000196, 0.8,
-    #                 save_model_dir='data/test/seq2seq_predict_teach_0.8_constant', n_epoch=2,
-    #                 load_model_name='data/test/seq2seq_2_348_4.3409_0.2056.checkpoint')
+    # Seq2SetTraining(200, 200, 3, 0.4156419, 0.09946605, False, 0, 0.0000589, 0.75956592, 0, 0.00001552, 19, 'general',
+    #                 'general', 'data/test', n_epoch=2)
+    Seq2SeqTraining(200, 200, 2, 0.33924615, 0.25448997, 0.00000589, 0.24392542, 0.0000196, 0.8,
+                    save_model_dir='data/test/seq2seq_predict_teach_0.8_constant', n_epoch=2,
+                    load_model_name='data/test/seq2seq_2_348_4.3409_0.2056.checkpoint')

@@ -1,10 +1,10 @@
-# TKE-PSD
+# TOKEPER
 
 # Overview
 
-This is the implement for paper Topological Knowledge Enhanced Personalized Sequence Determination Model for Medication Recommendation, which is a model that combines global topological knowledge of medications and personalized patient conditions to determine the order of medications for sequential recommendation.
+This is the implement for paper Topological Knowledge Enhanced Personalized Ranking Model for Sequential Medication Recommendation which is a model that combines global topological knowledge of medications and personalized patient conditions to determine the order of medications for sequential recommendation.
 
-TKE-PSD firstly conduct medication recommendation to generate drugs as sets (seq2set), and uses the probabilities of these drugs as the predict potential, then TKE-PSD calculates the topological potential of medications based on their co-occurrence. These two kinds of potential are combined by weighted sum, and the final results are used to determine the order of medications for sequential recommendation (seq2seq). In addition, TKE-PSD propsoes Occurrence-Based (OB) Beam search, a modified Beam search that uses the occurrence frequency of medications in the predicted sequences to change the probabilitis of drugs, so that redundant and duplicate drugs could be avoided.
+TOKEPER firstly conduct medication recommendation to generate drugs as sets (seq2set), and uses the probabilities of these drugs as the predict potential, then TOKEPER calculates the topological potential of medications based on their co-occurrence. These two kinds of potential are combined by weighted sum, and the final results are used to determine the order of medications for sequential recommendation (seq2seq). In addition, TOKEPER propsoes Occurrence-Based (OB) Beam search, a modified Beam search that uses the occurrence frequency of medications in the predicted sequences to change the probabilitis of drugs, so that redundant and duplicate drugs could be avoided.
 
 # Requirement
 
@@ -21,7 +21,7 @@ Patient records are selected from the raw data, and each patient is represented 
 \[\[\['4239', '5119', '78551', '4589'\],\['3731', '8872', '3893'\],\['N02B', 'A01A', 'A02B', 'A06A', 'B05C', 'A12'\]\],
   \[\['7455', '45829', 'V1259', '2724'\],\['3571', '3961', '8872'\],\['N02B', 'A01A', 'A02B', 'A06A', 'A12A'\]\]\]
 
-Items in patient records are then assigned a identical code, so that the raw records are transformed into the following format, which would act as the input of TKE-PSD.
+Items in patient records are then assigned a identical code, so that the raw records are transformed into the following format, which would act as the input of TOKEPER.
 
 \[\[\[2, 3, 4, 5, 6, 7, 8, 9\], \[2, 3, 4\], \[2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17\]\],
   \[\[10, 11, 12, 9\], \[5, 6, 3\], \[2, 3, 4, 5, 7, 6, 8, 9, 10, 11, 12, 13, 15, 17, 18, 19, 20\]\]\]
